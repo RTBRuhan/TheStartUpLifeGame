@@ -17,7 +17,7 @@ class GameEngine {
     
     // Resources
     this.resources = {
-      money: 10000,        // Starting capital
+      money: 50000,        // Starting capital ($50K)
       team: 1,             // Just the founder
       product: 0,          // 0-100 product completion
       users: 0,            // User base
@@ -85,15 +85,15 @@ class GameEngine {
     this.gameEnded = false;
     this.month = 0;
     
-    // Reset resources
+    // Reset resources - More balanced starting point
     this.resources = {
-      money: 10000,
-      team: 1,
-      product: 0,
-      users: 0,
-      revenue: 0,
-      reputation: 50,
-      morale: 75
+      money: 50000,      // $50K starting capital (6-12 months runway)
+      team: 1,           // Just the founder
+      product: 0,        // No product yet
+      users: 0,          // No users yet
+      revenue: 0,        // No revenue yet
+      reputation: 50,    // Neutral reputation
+      morale: 75         // Good starting morale
     };
     
     this.cofounder = null;
@@ -225,6 +225,24 @@ class GameEngine {
       }
     }
     
+    // Check for exit game flag (acquisition accepted, etc.)
+    if (choice.exitGame) {
+      this.milestones.exit = true;
+      this.gameEnded = true;
+      this.stage = 'exit';
+      
+      // Record the exit decision
+      this.decisions.push({
+        month: this.month,
+        event: this.currentEvent.title,
+        choice: choice.text,
+        quality: choice.quality,
+        narrative: narrative
+      });
+      
+      return { success: true, gameOver: true, reason: 'exit', narrative };
+    }
+    
     // Track decision quality
     if (choice.quality === 'good') {
       this.correctDecisions++;
@@ -285,17 +303,18 @@ class GameEngine {
   advanceMonth() {
     this.month++;
     
-    // Monthly expenses
-    const monthlyBurn = this.resources.team * 5000; // $5k per team member
+    // Monthly expenses - More realistic burn rate
+    const monthlyBurn = this.resources.team * 4000; // $4k per team member
     this.resources.money -= monthlyBurn;
     
     // Add monthly revenue
     this.resources.money += this.resources.revenue;
     
-    // Natural user growth if product > 50
-    if (this.resources.product > 50 && this.resources.users > 0) {
-      const growthRate = this.resources.reputation / 100;
-      this.resources.users = Math.floor(this.resources.users * (1 + growthRate * 0.1));
+    // Natural user growth if product > 50 and you have some users
+    if (this.resources.product > 50 && this.resources.users >= 10) {
+      const growthRate = this.resources.reputation / 200; // Slower, more realistic growth
+      const growth = Math.floor(this.resources.users * growthRate);
+      this.resources.users += Math.max(1, growth); // At least 1 user growth if conditions met
     }
     
     // Check if time limit reached
@@ -365,6 +384,17 @@ class GameEngine {
   }
   
   /**
+   * Check if player can attempt exit
+   */
+  canAttemptExit() {
+    // Must have MVP built, users, and revenue to even attempt exit
+    return this.milestones.mvpBuilt && 
+           this.resources.users >= 100 && 
+           this.resources.revenue > 0 &&
+           this.resources.money > 0;
+  }
+  
+  /**
    * Attempt exit (acquisition or IPO)
    */
   attemptExit() {
@@ -385,7 +415,7 @@ class GameEngine {
       return {
         success: false,
         valuation: valuation,
-        message: `Your company valuation is only $${(valuation / 1000000).toFixed(1)}M. Keep growing!`
+        message: `Your company valuation is only $${(valuation / 1000000).toFixed(1)}M. Need $10M+ to exit!`
       };
     }
   }
@@ -394,12 +424,22 @@ class GameEngine {
    * Calculate company valuation
    */
   calculateValuation() {
-    // Simple valuation model
+    // Realistic valuation model
     const revenueMultiple = this.resources.revenue * 12 * 10; // 10x ARR
     const userValue = this.resources.users * 100; // $100 per user
-    const reputationBonus = this.resources.reputation * 10000;
+    const productValue = this.resources.product >= 70 ? this.resources.product * 5000 : 0; // Product ready bonus
     
-    return revenueMultiple + userValue + reputationBonus;
+    // Reputation only matters if you have users/revenue
+    const reputationMultiplier = (this.resources.users > 100 || this.resources.revenue > 0) 
+      ? 1 + (this.resources.reputation / 100) 
+      : 1;
+    
+    const baseValuation = (revenueMultiple + userValue + productValue) * reputationMultiplier;
+    
+    // Minimum valuation only if you have actual traction
+    return this.resources.users > 0 || this.resources.revenue > 0 
+      ? Math.max(baseValuation, 100000) // Min $100K if you have traction
+      : baseValuation;
   }
   
   /**

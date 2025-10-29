@@ -106,6 +106,9 @@ class GameUI {
     
     // Decision log
     this.updateDecisionLog();
+    
+    // Quick actions visibility
+    this.updateQuickActions();
   }
   
   /**
@@ -182,6 +185,24 @@ class GameUI {
         </div>
       `;
     }).join('');
+  }
+  
+  /**
+   * Update quick actions visibility
+   */
+  updateQuickActions() {
+    const exitBtn = document.getElementById('exit-attempt-btn');
+    
+    if (this.game.canAttemptExit()) {
+      exitBtn.classList.remove('hidden');
+      exitBtn.disabled = false;
+      
+      // Show current valuation in button
+      const valuation = this.game.calculateValuation();
+      exitBtn.innerHTML = `🎯 Attempt Exit (${this.formatMoney(valuation)} valuation)`;
+    } else {
+      exitBtn.classList.add('hidden');
+    }
   }
   
   /**
