@@ -1,0 +1,23 @@
+{
+  "presets": [
+    {
+      "id": "cautious",
+      "name": "Cautious Growth",
+      "description": "Conservative approach with steady growth",
+      "actions": ["Cut Costs", "Cut Costs", "Hire", "Seek Funding"]
+    },
+    {
+      "id": "aggressive",
+      "name": "Move Fast & Break Things",
+      "description": "Rapid expansion with high risk",
+      "actions": ["Hire", "Hire", "Launch", "Seek Funding", "Launch"]
+    },
+    {
+      "id": "pivot-master",
+      "name": "Pivot Master",
+      "description": "Quick to adapt and change direction",
+      "actions": ["Launch", "Pivot", "Seek Funding", "Pivot"]
+    }
+  ]
+}
+
