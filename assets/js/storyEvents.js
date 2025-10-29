@@ -13,21 +13,21 @@ const STORY_EVENTS = [
     choices: [
       {
         text: '🚀 Quit immediately and go all-in',
-        quality: 'neutral',
-        effect: { money: -5000, morale: +20, product: +15 },
-        result: 'You hand in your resignation letter. No safety net, but total freedom to build.'
+        quality: 'bad',
+        effect: { money: -10000, morale: -10, product: +10, reputation: -5 },
+        result: 'You quit. Your family thinks you\'re crazy. Your savings are draining fast.'
       },
       {
         text: '💼 Keep the job, build on weekends',
         quality: 'good',
-        effect: { money: +2000, product: +5 },
-        result: 'Smart move. You keep your salary and work nights building your MVP.'
+        effect: { money: +1000, product: +3, morale: -5 },
+        result: 'Smart move. But you\'re exhausted. 9-5 job + 6-midnight coding. Sleep is a luxury.'
       },
       {
         text: '🤝 Find a co-founder first',
-        quality: 'good',
-        effect: { getCofounder: true, product: +10 },
-        result: 'You reach out to your network. Someone shares your vision!'
+        quality: 'neutral',
+        effect: { getCofounder: true, product: +5, money: -2000 },
+        result: 'You reach out to your network. Finding someone who shares your vision AND is willing to quit their job is brutal.'
       }
     ]
   },
@@ -40,21 +40,21 @@ const STORY_EVENTS = [
     choices: [
       {
         text: '✅ Accept the deal',
-        quality: 'neutral',
-        effect: { money: +20000, reputation: -5 },
-        result: 'You take the money. Your friend is now a major shareholder. Better make this work.'
+        quality: 'bad',
+        effect: { money: +10000, reputation: -10, morale: -10 },
+        result: 'You take the money. They want weekly updates and keep questioning every decision. The pressure is immense.'
       },
       {
         text: '❌ Decline, bootstrap it',
-        quality: 'good',
-        effect: { morale: +10, reputation: +5 },
-        result: 'You politely decline. You\'ll build this on your own terms, even if it\'s slower.'
+        quality: 'neutral',
+        effect: { morale: -5, reputation: +5 },
+        result: 'You decline. Now you have no money and your friend is offended. Awkward.'
       },
       {
         text: '🤝 Counter with 20%',
-        quality: 'good',
-        effect: { money: +15000, reputation: +10 },
-        result: 'They agree to 20%! You\'ve shown you know your worth.'
+        quality: 'bad',
+        effect: { money: -5000, reputation: -15 },
+        result: 'They\'re insulted and walk away. Word spreads that you\'re "difficult to work with."'
       }
     ]
   },
@@ -96,21 +96,21 @@ const STORY_EVENTS = [
     choices: [
       {
         text: '⚡ Fast & dirty - PHP/WordPress',
-        quality: 'neutral',
-        effect: { product: +25, money: -2000 },
-        result: 'You ship fast but technical debt is building up already.'
+        quality: 'bad',
+        effect: { product: +15, money: -3000 },
+        result: 'You ship fast but the code is a mess. Every new feature takes 3x longer than expected.'
       },
       {
         text: '🏗️ Scalable - React/Node/AWS',
-        quality: 'good',
-        effect: { product: +15, money: -5000 },
-        result: 'It takes longer but you\'re building on solid foundations.'
+        quality: 'neutral',
+        effect: { product: +8, money: -8000, morale: -10 },
+        result: 'It takes 3 months to set up. Your money is burning. Are you over-engineering?'
       },
       {
         text: '🚀 Bleeding edge - Next.js/Serverless',
-        quality: 'neutral',
-        effect: { product: +20, money: -4000, reputation: +10 },
-        result: 'Developers will love this, but debugging is a nightmare.'
+        quality: 'bad',
+        effect: { product: +10, money: -6000, reputation: -10 },
+        result: 'Cool tech, but docs are sparse. You spend weeks debugging edge cases.'
       }
     ]
   },
@@ -152,21 +152,21 @@ const STORY_EVENTS = [
     choices: [
       {
         text: '✅ Hire them full-time',
-        quality: 'neutral',
-        effect: { team: +1, money: -15000, product: +20 },
-        result: 'Your first employee! Development speed doubles, but so does burn rate.'
+        quality: 'bad',
+        effect: { team: +1, money: -20000, product: +10, morale: -15 },
+        result: 'You hire them. They take 3 weeks to onboard. Burn rate is now $10K/month. You have 2-3 months runway left.'
       },
       {
         text: '💼 Offer equity instead',
-        quality: 'good',
-        effect: { team: +1, product: +25, morale: +10 },
-        result: 'They accept 2% equity and a lower salary. Everyone\'s invested now.'
+        quality: 'neutral',
+        effect: { team: +1, product: +12, morale: -5, money: -8000 },
+        result: 'They want 5% equity + $50K salary. You negotiate down to 3% but you\'re still burning cash.'
       },
       {
         text: '🌍 Hire overseas contractor',
-        quality: 'neutral',
-        effect: { money: -5000, product: +15 },
-        result: 'You save money but communication and time zones are challenging.'
+        quality: 'bad',
+        effect: { money: -6000, product: +5, reputation: -10 },
+        result: 'Communication is brutal. Code quality is questionable. You spend more time reviewing than they spend coding.'
       }
     ]
   },
