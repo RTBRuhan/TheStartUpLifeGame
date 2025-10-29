@@ -1,245 +1,338 @@
-# 🚀 The Startup Lifecycle
+# 🚀 Startup Life - The Game
 
-> **An interactive visual narrative of a startup's journey from Idea to Exit (or Death)**
+> **A story-driven startup simulation game where every decision matters**
+
+Build your startup from a garage idea to a billion-dollar exit. Navigate crises, manage relationships, make critical decisions, and see if you have what it takes to succeed in the startup world.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Overview
+## 🎮 Game Features
 
-The Startup Lifecycle is an educational and artistic exploration of the chaotic journey of building a startup. Watch as your startup probabilistically transitions through various states based on your decisions and a bit of randomness. Will you reach a successful Exit, or will you face Death and potential Rebirth?
+### Story-Driven Gameplay
+- **30+ Unique Events** - Each with multiple decision paths and consequences
+- **Dynamic Narrative** - Your choices shape the story and determine outcomes
+- **Multiple Endings** - Success, failure, acquisition, or burn out
 
-### 🎯 One-Liner Pitch
+### Resource Management
+- **💰 Money** - Manage cash flow and runway
+- **👥 Team** - Build and maintain your workforce
+- **🛠️ Product** - Develop from idea to market-ready product
+- **👤 Users** - Grow your user base organically or through marketing
+- **💵 Revenue** - Generate sustainable income
+- **⭐ Reputation** - Build trust in your market
+- **😊 Morale** - Keep your team motivated
 
-*"Experience the beautiful chaos of startup life through an interactive, probabilistic state machine with stunning visuals."*
+### Co-founder System
+- **Find Partners** - Get a co-founder through gameplay events
+- **Relationship Dynamics** - Maintain good relationships or face consequences
+- **Partner Loyalty** - Make decisions that affect your co-founder's loyalty
+- **Potential Betrayal** - They might leave if treated poorly or get better offers
 
-## Features
+### Progress Tracking
+- **Visual Progress Bar** - See your journey from idea to exit
+- **9 Milestones** - Track key achievements:
+  - ✅ Idea Validated
+  - ✅ MVP Built
+  - ✅ First User
+  - ✅ First Revenue
+  - ✅ Product-Market Fit
+  - ✅ Profitability
+  - ✅ Series A Funding
+  - ✅ Scaling
+  - ✅ Exit
 
-- **11 Distinct States**: Idea, Hype, Funding, Growth, Chaos, Pivot, Scale, Exit, Debt, Death, Rebirth
-- **Probabilistic Transitions**: Each state has weighted probabilities for transitioning to other states
-- **User Actions**: Hire, Cut Costs, Seek Funding, Launch, and Pivot - each modifying transition probabilities
-- **Stunning Visuals**: Each state has a unique visual representation with smooth morphing transitions (powered by p5.js)
-- **Interactive Timeline**: See your startup's journey visualized over time (powered by D3.js)
-- **Multiple Seed Types**: Tech, Consumer, or Biotech - each with different characteristics
-- **Auto-Simulation**: Run hundreds of simulations to explore different outcomes
-- **Export Options**: Download your journey as JSON or capture visuals as PNG
-- **Keyboard Controls**: Full keyboard accessibility support
-- **Shareable Snapshots**: Share your startup's current state on social media
+### Decision Quality Tracking
+- **✅ Good Decisions** - Smart choices that benefit your startup
+- **❌ Bad Decisions** - Risky or poor choices with consequences
+- **➖ Neutral Decisions** - Balanced trade-offs
 
-## Quick Start
+### End-Game Report
+- **Company Valuation** - See how much your company is worth
+- **Final Score** - Comprehensive scoring based on multiple factors
+- **Decision Analysis** - Percentage of good vs. bad decisions
+- **Achievement System** - Unlock achievements based on your journey
+- **Shareable Results** - Share your success (or failure) story
 
-### Running Locally
+## 🎯 How to Play
 
-1. **Clone the repository:**
+### Getting Started
+
+1. **Clone & Serve**
    ```bash
    git clone https://github.com/AUTHOR_HANDLE/startup-lifecycle.git
    cd startup-lifecycle
-   ```
-
-2. **Serve the files:**
-   
-   You can use any static file server. Here are a few options:
-   
-   **Python 3:**
-   ```bash
    python -m http.server 8000
    ```
-   
-   **Node.js (with http-server):**
-   ```bash
-   npx http-server -p 8000
-   ```
-   
-   **PHP:**
-   ```bash
-   php -S localhost:8000
-   ```
 
-3. **Open in browser:**
+2. **Open in Browser**
    Navigate to `http://localhost:8000`
 
-### No Build Step Required!
+3. **Enter Your Details**
+   - Your name (Founder name)
+   - Your startup name
 
-This project uses vanilla JavaScript and CDN-hosted libraries. Just serve the files and go!
+4. **Start Playing!**
 
-## How to Play
+### Gameplay
 
-1. **Enter your startup name** and choose a startup type (Tech, Consumer, or Biotech)
-2. **Click "Spin a Startup"** to begin
-3. **Use the Play button** to auto-advance or **Step** to go tick-by-tick
-4. **Intervene with actions** to influence your startup's trajectory:
-   - **Hire** (H): Increase growth potential, but raises burn rate
-   - **Cut Costs** (C): Reduce burn rate, but may slow growth
-   - **Seek Funding** (F): Boost funding probability, but risk chaos
-   - **Launch** (L): Generate hype around your product
-   - **Pivot** (P): Force an immediate pivot (use wisely!)
+1. **Read the Event** - Each event presents a scenario from startup life
+2. **Choose Wisely** - Select from 2-3 options, each with different consequences
+3. **Watch Resources** - Monitor your resources in the sidebar
+4. **Track Progress** - Follow your progress toward exit at the top
+5. **Make Decisions** - Use mouse clicks or keyboard numbers (1, 2, 3)
 
-5. **Watch the timeline** to see your journey unfold
-6. **Share or export** your results when done
+### Winning Strategies
 
-## Customizing the Simulation
+- **Balance Resources** - Don't ignore any resource completely
+- **Build Relationships** - Treat your co-founder well
+- **Take Smart Risks** - Some risks pay off, but choose wisely
+- **Watch Your Runway** - Don't run out of money
+- **Keep Morale High** - Low morale leads to disasters
+- **Time Matters** - You have 36 months to reach exit
 
-### Editing Transition Probabilities
+## 📊 Game Stages
 
-The heart of the simulation is the `data/transitions.json` file. You can modify:
+1. **Idea Stage** (0-20% product)
+   - Validate your idea
+   - Find co-founders
+   - Make initial decisions
 
-- **Transition probabilities** between states
-- **Seed type modifiers** that affect different startup types
-- **State names** and structure
+2. **Building MVP** (20-70% product)
+   - Choose tech stack
+   - Build your product
+   - Manage burnout
 
-#### Example transition entry:
+3. **Launching** (70%+ product, < 1000 users)
+   - Launch strategy
+   - Deal with bugs
+   - Get first users
 
-```json
-"Growth": {
-  "Scale": 0.6,
-  "Chaos": 0.3,
-  "Pivot": 0.1
-}
-```
+4. **Growing** (1000+ users)
+   - Monetization decisions
+   - Scale infrastructure
+   - Handle growth pains
 
-This means when in the **Growth** state:
-- 60% chance to transition to **Scale**
-- 30% chance to transition to **Chaos**
-- 10% chance to transition to **Pivot**
+5. **Scaling** (Product-Market Fit achieved)
+   - Raise funding
+   - Expand internationally
+   - Consider acquisition offers
 
-**Important:** Probabilities should sum to 1.0 for each state.
+6. **Exit** 🎉
+   - Successfully exit with valuation > $10M
+   - See your final score and achievements
 
-### Adding New States
+## 🎲 Event Types
 
-1. Add the state name to the `states` array in `transitions.json`
-2. Define its transitions in the `transitions` object
-3. Add visual representation in `assets/js/visualStages.js`:
-   - Add color to `stateColors`
-   - Add parameters to `stateParams`
-   - Create a `drawYourState()` function
-4. Update the switch statement in `renderStateVisual()`
+### Positive Events
+- Partnership opportunities
+- Press coverage
+- Investor interest
+- Growth milestones
 
-## Architecture
+### Challenges
+- Technical problems
+- Competitor threats
+- Running out of money
+- Co-founder conflicts
+- Team burnout
 
-```
-startup-lifecycle/
-├── index.html              # Main HTML with Tailwind CSS
-├── README.md               # This file
-├── LICENSE                 # MIT License
-├── data/
-│   ├── transitions.json    # State transition probabilities
-│   └── presets.json        # Preset action sequences
-└── assets/
-    ├── js/
-    │   ├── app.js          # Main app orchestrator
-    │   ├── simEngine.js    # Simulation engine (state machine)
-    │   ├── visualStages.js # p5.js visual representations
-    │   └── ui.js           # UI controller and D3 timeline
-    └── css/
-        └── (none needed - Tailwind via CDN)
-```
+### Critical Decisions
+- Quit job or bootstrap?
+- Raise money or stay independent?
+- Hire fast or slow?
+- Accept acquisition or keep growing?
 
-## Tech Stack
+## 💡 Decision Hints
 
-- **HTML5 + Tailwind CSS** - Modern, responsive UI
-- **Vanilla JavaScript** - No frameworks, fast and simple
-- **p5.js** - Creative visual representations
-- **D3.js** - Interactive timeline visualization
-- **Seeded RNG** - Reproducible simulations
+Each choice shows hints about its effects:
+- 💰 Money changes
+- 👥 Team size
+- 🛠️ Product progress
+- ⭐ Reputation impact
+- 😊 Morale changes
 
-## Keyboard Shortcuts
+## 🏆 Scoring System
 
-| Key | Action |
-|-----|--------|
-| `Space` | Play/Pause simulation |
-| `→` | Step forward one tick |
-| `H` | Hire action |
-| `C` | Cut Costs action |
-| `F` | Seek Funding action |
-| `L` | Launch action |
-| `P` | Pivot action |
+Your final score is based on:
+- **Valuation** - Higher is better
+- **Milestones Achieved** - Each worth 1000 points
+- **Decision Quality** - Good decisions: +100, Bad: -50
+- **Speed Bonus** - Faster exit = higher score
+- **Survival** - Making it to exit adds significant points
 
-## Deployment
+## 🎪 Special Features
 
-### GitHub Pages
+### Quick Actions
+- **🎯 Attempt Exit** - Try to exit if valuation is high enough
+- **💾 Save Progress** - Save your game to continue later
 
-1. Push your code to GitHub
-2. Go to repository Settings → Pages
-3. Select branch `main` and folder `/ (root)`
-4. Your site will be available at `https://AUTHOR_HANDLE.github.io/startup-lifecycle/`
+### Keyboard Shortcuts
+- **1, 2, 3** - Make decisions quickly
+- **Esc** - (Future: Pause menu)
 
-### Netlify/Vercel
+### Shareable Results
+After the game ends, share your results:
+- Copy to clipboard
+- Share on social media
+- Challenge friends to beat your score
 
-Simply connect your GitHub repository and deploy. No build configuration needed!
-
-## Auto-Simulation
-
-Want to run statistical analysis? Use the Auto-Simulate feature:
-
-1. Click **"Auto-Simulate"** button
-2. Set number of runs (e.g., 100)
-3. Set max ticks per run (e.g., 50)
-4. Click **"Run"**
-5. Download the JSON report with all simulation data
-
-The report includes:
-- Final state distribution
-- Average survival time
-- Success rate (Exit reached)
-- Detailed step-by-step data for each run
-
-## Educational Use
-
-This project is perfect for:
-- **Entrepreneurship courses** - Visualize startup dynamics
-- **Game design classes** - Example of state machines and probability
-- **Data visualization** - Demonstrates p5.js and D3.js integration
-- **Interactive storytelling** - Narrative through simulation
-
-## Browser Compatibility
+## 📱 Browser Compatibility
 
 - ✅ Chrome/Edge (Recommended)
 - ✅ Firefox
 - ✅ Safari
 - ✅ Mobile browsers
 
-## Accessibility
+## 🛠️ Technical Architecture
 
-- Full keyboard navigation support
-- Screen reader friendly
-- Reduced motion support via `prefers-reduced-motion`
-- High contrast visuals
+### File Structure
+```
+startup-lifecycle/
+├── index.html              # Main game interface
+├── README.md               # This file
+├── assets/
+│   └── js/
+│       ├── gameEngine.js   # Core game logic & state management
+│       ├── storyEvents.js  # 30+ narrative events database
+│       ├── gameUI.js       # UI controller & animations
+│       └── gameApp.js      # Main orchestrator
+└── data/
+    └── (no longer needed)
+```
 
-## Contributing
+### Tech Stack
+- **HTML5** - Semantic markup
+- **Tailwind CSS** - Utility-first styling
+- **Vanilla JavaScript** - No frameworks, pure performance
+- **LocalStorage** - Save game functionality
 
-Contributions are welcome! Ideas:
-- New state types
-- Additional actions
-- More visual styles
-- Sound effects
-- Mobile-optimized controls
+### Key Classes
 
-## License
+**GameEngine** - Manages:
+- Resource tracking
+- State transitions
+- Event generation
+- Decision processing
+- Milestone checking
+- Co-founder relationships
+- Game over conditions
 
-MIT License - see [LICENSE](LICENSE) file for details.
+**GameUI** - Handles:
+- Screen transitions
+- Resource visualization
+- Event rendering
+- Decision buttons
+- Progress bar
+- End-game report
 
-## Credits
+## 🎨 Design Philosophy
 
-**Created by:** AUTHOR_HANDLE
+### Minimal Black & White Aesthetic
+- Pure black background (#000000)
+- White text and accents
+- Grayscale resource bars
+- Clean, focused interface
 
-**Inspiration:** The wild, unpredictable journey of every startup founder.
+### Story First
+- Narrative-driven events
+- Meaningful choices
+- Real startup scenarios
+- Educational value
 
-**Libraries:**
-- [p5.js](https://p5js.org/) - Visual creativity
-- [D3.js](https://d3js.org/) - Data-driven documents
-- [Tailwind CSS](https://tailwindcss.com/) - Beautiful styling
+### Accessibility
+- Keyboard navigation
+- Clear visual hierarchy
+- High contrast design
+- Reduced motion support
 
-## Roadmap
+## 🔧 Customization
 
-- [ ] Add sound effects for state transitions
-- [ ] Leaderboard (optional Firebase integration)
-- [ ] More startup types (hardware, crypto, etc.)
-- [ ] Historical company presets (follow real startup trajectories)
-- [ ] Multiplayer mode (compete with friends)
-- [ ] Mobile app version
+### Adding New Events
+
+Edit `assets/js/storyEvents.js`:
+
+```javascript
+{
+  id: 'your_event_id',
+  stage: 'growing',  // or 'idea', 'building', 'launching', 'scaling', 'any'
+  title: 'Your Event Title',
+  description: 'What happens in this event...',
+  condition: {  // Optional
+    users: 1000,  // Requires 1000+ users
+    hasCofounder: true  // Requires co-founder
+  },
+  choices: [
+    {
+      text: 'Option 1',
+      quality: 'good',  // or 'bad', 'neutral'
+      effect: {
+        money: +10000,
+        reputation: +10,
+        users: +500
+      },
+      result: 'What happens after choosing this...'
+    },
+    // ... more choices
+  ]
+}
+```
+
+### Tuning Game Balance
+
+In `gameEngine.js`, adjust:
+- Starting resources
+- Monthly burn rate
+- Milestone thresholds
+- Time limit (36 months default)
+- Scoring weights
+
+## 📚 Learning Outcomes
+
+Players will learn about:
+- **Startup Stages** - From idea to exit
+- **Resource Management** - Balancing multiple constraints
+- **Decision Making** - Risk vs. reward trade-offs
+- **Team Dynamics** - Importance of relationships
+- **Market Strategy** - Timing and positioning
+- **Financial Planning** - Runway and burn rate
+- **Product Development** - MVP to scale
+
+## 🚀 Future Enhancements
+
+Planned features:
+- [ ] Multiple startup types (SaaS, Hardware, Marketplace)
+- [ ] Industry-specific events
+- [ ] Multiplayer competitive mode
+- [ ] Historical startup scenarios
+- [ ] More co-founder personalities
+- [ ] Random event system
+- [ ] Achievement badges
+- [ ] Leaderboard (optional Firebase)
+- [ ] Save/Load multiple games
+- [ ] Difficulty levels
+
+## 🤝 Contributing
+
+Want to add events or features? Contributions welcome!
+
+1. Fork the repository
+2. Create your feature branch
+3. Add events to `storyEvents.js`
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file
+
+## 🎮 Play Now!
+
+**What would your startup become?**
+
+[Live Demo](https://AUTHOR_HANDLE.github.io/startup-lifecycle/)
 
 ---
 
-**What would your startup become? Find out now! 🚀**
+Built with ❤️ for aspiring entrepreneurs everywhere.
 
-[Live Demo](https://AUTHOR_HANDLE.github.io/startup-lifecycle/) | [Report Bug](https://github.com/AUTHOR_HANDLE/startup-lifecycle/issues) | [Request Feature](https://github.com/AUTHOR_HANDLE/startup-lifecycle/issues)
-
+*Remember: In the real world, every startup journey is unique. This game is for entertainment and education.*
