@@ -93,6 +93,7 @@ class GameUI {
     // Progress
     const progress = this.game.getProgress();
     document.getElementById('progress-fill').style.width = `${progress}%`;
+    document.getElementById('progress-percent').textContent = Math.round(progress);
     
     // Milestones
     Object.keys(this.game.milestones).forEach(milestone => {

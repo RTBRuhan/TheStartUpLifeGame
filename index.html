@@ -184,32 +184,37 @@
   
   <!-- GAME SCREEN -->
   <div id="game-screen" class="hidden">
+    <!-- Header Bar -->
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h2 class="text-2xl font-bold" id="startup-display">My Startup</h2>
+        <p class="text-gray-400 text-sm" id="stage-display">Idea Stage</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <p class="text-gray-400">Month <span id="month-display">0</span> / 36</p>
+          <p class="text-xs text-gray-500">Progress to Exit</p>
+        </div>
+        <button 
+          id="info-btn" 
+          class="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800 border border-gray-700"
+          title="About this game"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
     <!-- Progress Bar -->
     <div class="game-card p-6 mb-6">
-      <div class="flex justify-between items-center mb-3">
-        <div>
-          <h2 class="text-2xl font-bold" id="startup-display">My Startup</h2>
-          <p class="text-gray-400" id="stage-display">Idea Stage</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <button 
-            id="info-btn" 
-            class="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800"
-            title="About this game"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </button>
-          <div class="text-right">
-            <p class="text-gray-400">Month <span id="month-display">0</span> / 36</p>
-            <p class="text-sm text-gray-500">Progress to Exit</p>
-          </div>
-        </div>
+      <div class="flex justify-between items-center mb-2">
+        <p class="text-sm text-gray-400">Your Journey to Exit</p>
+        <p class="text-sm text-gray-400"><span id="progress-percent">0</span>% Complete</p>
       </div>
       
-      <!-- Progress Bar -->
-      <div class="progress-bar mb-2">
+      <div class="progress-bar mb-4">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
       
@@ -292,8 +297,8 @@
       </div>
       
       <!-- Resources Sidebar -->
-      <div class="space-y-4">
-        <!-- Resources -->
+      <div class="space-y-6">
+        <!-- Resources Card -->
         <div class="game-card p-6">
           <h4 class="text-xl font-bold mb-4">📊 Resources</h4>
           
@@ -301,7 +306,7 @@
             <div>
               <div class="flex justify-between text-sm mb-1">
                 <span>💰 Money</span>
-                <span id="money-display" class="font-mono">$50,000</span>
+                <span id="money-display" class="font-mono">$25,000</span>
               </div>
               <div class="resource-bar">
                 <div class="resource-fill" id="money-bar" style="width: 100%"></div>
@@ -342,43 +347,43 @@
             <div>
               <div class="flex justify-between text-sm mb-1">
                 <span>⭐ Reputation</span>
-                <span id="reputation-display" class="font-mono">50%</span>
+                <span id="reputation-display" class="font-mono">30%</span>
               </div>
               <div class="resource-bar">
-                <div class="resource-fill" id="reputation-bar" style="width: 50%"></div>
+                <div class="resource-fill" id="reputation-bar" style="width: 30%"></div>
               </div>
             </div>
             
             <div>
               <div class="flex justify-between text-sm mb-1">
                 <span>😊 Morale</span>
-                <span id="morale-display" class="font-mono">75%</span>
+                <span id="morale-display" class="font-mono">60%</span>
               </div>
               <div class="resource-bar">
-                <div class="resource-fill" id="morale-bar" style="width: 75%"></div>
+                <div class="resource-fill" id="morale-bar" style="width: 60%"></div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Quick Actions -->
-        <div class="game-card p-6">
-          <h4 class="text-xl font-bold mb-4">⚡ Quick Actions</h4>
-          <div class="space-y-2">
-            <button id="exit-attempt-btn" class="hidden w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg decision-btn text-sm">
-              🎯 Attempt Exit
-            </button>
-            <button id="save-game-btn" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg decision-btn text-sm">
-              💾 Save Progress
-            </button>
+          
+          <!-- Quick Actions inside Resources -->
+          <div class="mt-6 pt-6 border-t border-gray-700">
+            <h5 class="text-sm font-bold mb-3 text-gray-400">⚡ QUICK ACTIONS</h5>
+            <div class="space-y-2">
+              <button id="exit-attempt-btn" class="hidden w-full bg-white hover:bg-gray-200 text-black font-semibold py-3 px-4 rounded-lg decision-btn text-sm">
+                🎯 Attempt Exit
+              </button>
+              <button id="save-game-btn" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg decision-btn text-sm border border-gray-700">
+                💾 Save Progress
+              </button>
+            </div>
           </div>
         </div>
         
         <!-- Decision Log -->
         <div class="game-card p-6">
           <h4 class="text-xl font-bold mb-4">📜 Recent Decisions</h4>
-          <div id="decision-log" class="space-y-2 text-sm max-h-64 overflow-y-auto">
-            <p class="text-gray-500">No decisions yet...</p>
+          <div id="decision-log" class="space-y-2 text-sm max-h-80 overflow-y-auto">
+            <p class="text-gray-500 text-center py-4">No decisions yet...</p>
           </div>
         </div>
       </div>
