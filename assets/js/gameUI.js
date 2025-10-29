@@ -36,8 +36,16 @@ class GameUI {
     
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-      if (this.currentScreen === 'game' && this.game.currentEvent) {
-        if (['1', '2', '3'].includes(e.key)) {
+      if (this.currentScreen === 'game') {
+        // Check if Continue button is visible and active
+        const nextBtn = document.getElementById('next-btn');
+        if (e.key === 'Enter' && !nextBtn.classList.contains('hidden')) {
+          this.handleNextEvent();
+          return;
+        }
+        
+        // Number keys for decisions
+        if (this.game.currentEvent && ['1', '2', '3'].includes(e.key)) {
           const index = parseInt(e.key) - 1;
           this.handleDecision(index);
         }
