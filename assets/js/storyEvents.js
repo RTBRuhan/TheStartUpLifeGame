@@ -120,7 +120,7 @@ const STORY_EVENTS = [
     stage: 'building',
     condition: { product: 30, hasCofounder: true },
     title: 'Co-founder Conflict',
-    description: `${COFOUNDER_NAME} wants to pivot the product direction. This could derail everything you've built.`,
+    description: 'Your co-founder wants to pivot the product direction. This could derail everything you\'ve built.',
     choices: [
       {
         text: '🤝 Listen and compromise',
@@ -346,7 +346,7 @@ const STORY_EVENTS = [
     stage: 'growing',
     condition: { users: 5000, hasCofounder: true },
     title: 'The Betrayal',
-    description: `${COFOUNDER_NAME} got a job offer at Google for $300K. They want to leave.`,
+    description: 'Your co-founder got a job offer at Google for $300K. They want to leave.',
     choices: [
       {
         text: '💔 Let them go gracefully',
