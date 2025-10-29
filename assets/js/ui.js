@@ -126,19 +126,19 @@ class UIController {
       .domain([0, Math.max(history.length - 1, 10)])
       .range([margin.left, margin.left + width]);
     
-    // Color scale
+    // Color scale - Minimal Black & White
     const colorMap = {
-      'Idea': '#c8c8dc',
-      'Hype': '#ff3296',
-      'Funding': '#ffd700',
-      'Growth': '#32ff96',
-      'Chaos': '#ff6432',
-      'Pivot': '#9664ff',
-      'Scale': '#64c8ff',
-      'Exit': '#64ff64',
-      'Debt': '#c83232',
-      'Death': '#646464',
-      'Rebirth': '#ffc864'
+      'Idea': '#f0f0f0',      // Very light gray
+      'Hype': '#ffffff',      // Pure white
+      'Funding': '#dcdcdc',   // Light gray
+      'Growth': '#c8c8c8',    // Medium light gray
+      'Chaos': '#646464',     // Medium gray
+      'Pivot': '#b4b4b4',     // Light medium gray
+      'Scale': '#a0a0a0',     // Gray
+      'Exit': '#ffffff',      // Pure white
+      'Debt': '#505050',      // Dark gray
+      'Death': '#282828',     // Very dark gray
+      'Rebirth': '#c8c8c8'    // Medium light gray
     };
     
     // Bind data
@@ -183,9 +183,9 @@ class UIController {
       .attr('y1', height / 2)
       .attr('x2', (d, i) => xScale(i + 1))
       .attr('y2', height / 2)
-      .attr('stroke', '#555')
+      .attr('stroke', '#666')
       .attr('stroke-width', 2)
-      .attr('opacity', 0.5);
+      .attr('opacity', 0.6);
     
     lines
       .transition()

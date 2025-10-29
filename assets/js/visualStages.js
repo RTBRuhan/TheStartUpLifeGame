@@ -19,19 +19,19 @@ class VisualStages {
     this.time = 0;
     this.pulsePhase = 0;
     
-    // State colors (RGB)
+    // State colors (RGB) - Minimal Black & White
     this.stateColors = {
-      'Idea': [200, 200, 220],
-      'Hype': [255, 50, 150],
-      'Funding': [255, 215, 0],
-      'Growth': [50, 255, 150],
-      'Chaos': [255, 100, 50],
-      'Pivot': [150, 100, 255],
-      'Scale': [100, 200, 255],
-      'Exit': [100, 255, 100],
-      'Debt': [200, 50, 50],
-      'Death': [100, 100, 100],
-      'Rebirth': [255, 200, 100]
+      'Idea': [240, 240, 240],      // Very light gray
+      'Hype': [255, 255, 255],      // Pure white
+      'Funding': [220, 220, 220],   // Light gray
+      'Growth': [200, 200, 200],    // Medium light gray
+      'Chaos': [100, 100, 100],     // Medium gray
+      'Pivot': [180, 180, 180],     // Light medium gray
+      'Scale': [160, 160, 160],     // Gray
+      'Exit': [255, 255, 255],      // Pure white
+      'Debt': [80, 80, 80],         // Dark gray
+      'Death': [40, 40, 40],        // Very dark gray
+      'Rebirth': [200, 200, 200]    // Medium light gray
     };
     
     // State visual parameters
@@ -67,8 +67,8 @@ class VisualStages {
     const p = this.p;
     this.time++;
     
-    // Clear background
-    p.background(20, 20, 30);
+    // Clear background - Pure black
+    p.background(0, 0, 0);
     
     // Update transition
     if (this.transitionProgress < 1.0) {
