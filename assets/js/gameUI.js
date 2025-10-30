@@ -7,6 +7,7 @@ class GameUI {
   constructor(gameEngine) {
     this.game = gameEngine;
     this.currentScreen = 'start';
+    this.currentChoiceMapping = null; // Maps display order to original choice indices
   }
   
   /**
@@ -35,6 +36,14 @@ class GameUI {
     
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
+      if (this.currentScreen === 'start') {
+        // Enter to start game
+        if (e.key === 'Enter') {
+          this.handleStartGame();
+          return;
+        }
+      }
+      
       if (this.currentScreen === 'game') {
         // Check if Continue button is visible and active
         const nextBtn = document.getElementById('next-btn');
@@ -43,10 +52,28 @@ class GameUI {
           return;
         }
         
-        // Number keys for decisions
-        if (this.game.currentEvent && ['1', '2', '3'].includes(e.key)) {
-          const index = parseInt(e.key) - 1;
-          this.handleDecision(index);
+        // Number keys for decisions - only when decision buttons are visible
+        const decisionButtons = document.getElementById('decision-buttons');
+        if (this.game.currentEvent && 
+            !decisionButtons.classList.contains('hidden') && 
+            ['1', '2', '3'].includes(e.key)) {
+          const displayIndex = parseInt(e.key) - 1;
+          // Map to original index using the shuffle mapping
+          const originalIndex = this.currentChoiceMapping ? this.currentChoiceMapping[displayIndex] : displayIndex;
+          this.handleDecision(originalIndex);
+        }
+      }
+      
+      if (this.currentScreen === 'endgame') {
+        // Enter to play again
+        if (e.key === 'Enter') {
+          this.handlePlayAgain();
+          return;
+        }
+        // Escape to share
+        if (e.key === 'Escape') {
+          this.handleShareResults();
+          return;
         }
       }
     });
@@ -233,23 +260,38 @@ class GameUI {
     document.getElementById('event-title').textContent = event.title;
     document.getElementById('event-description').textContent = description;
     
-    // Render choices
+    // Render choices with RANDOM SHUFFLE to prevent spam-clicking
     const buttonsContainer = document.getElementById('decision-buttons');
     buttonsContainer.innerHTML = '';
     
-    event.choices.forEach((choice, index) => {
+    // Create array of choices with their original indices
+    const shuffledChoices = event.choices.map((choice, originalIndex) => ({
+      choice,
+      originalIndex
+    }));
+    
+    // Shuffle the array using Fisher-Yates algorithm
+    for (let i = shuffledChoices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledChoices[i], shuffledChoices[j]] = [shuffledChoices[j], shuffledChoices[i]];
+    }
+    
+    // Store the mapping for keyboard shortcuts
+    this.currentChoiceMapping = shuffledChoices.map(item => item.originalIndex);
+    
+    shuffledChoices.forEach((item, displayIndex) => {
       const button = document.createElement('button');
       button.className = 'w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-lg decision-btn text-left';
       button.innerHTML = `
         <div class="flex items-start">
-          <span class="text-2xl mr-3">${index + 1}</span>
+          <span class="text-2xl mr-3">${displayIndex + 1}</span>
           <div class="flex-1">
-            <p>${choice.text}</p>
-            <p class="text-sm text-gray-400 mt-1">${this.getChoiceHint(choice)}</p>
+            <p>${item.choice.text}</p>
+            <p class="text-sm text-gray-400 mt-1">${this.getChoiceHint(item.choice)}</p>
           </div>
         </div>
       `;
-      button.addEventListener('click', () => this.handleDecision(index));
+      button.addEventListener('click', () => this.handleDecision(item.originalIndex));
       buttonsContainer.appendChild(button);
     });
     
@@ -427,7 +469,9 @@ class GameUI {
    * Utility: Format money
    */
   formatMoney(amount) {
-    if (Math.abs(amount) >= 1000000) {
+    if (Math.abs(amount) >= 1000000000) {
+      return `$${(amount / 1000000000).toFixed(2)}B`;
+    } else if (Math.abs(amount) >= 1000000) {
       return `$${(amount / 1000000).toFixed(1)}M`;
     } else if (Math.abs(amount) >= 1000) {
       return `$${(amount / 1000).toFixed(1)}K`;

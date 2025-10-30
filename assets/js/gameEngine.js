@@ -15,15 +15,15 @@ class GameEngine {
     this.startupName = '';
     this.founderName = '';
     
-    // Resources - Balanced for playability
+    // Resources - Balanced for winnable gameplay
     this.resources = {
-      money: 50000,        // Starting capital ($50K) - enough for 10 months solo
+      money: 100000,       // Starting capital ($100K) - realistic seed funding
       team: 1,             // Just the founder
       product: 0,          // 0-100 product completion
       users: 0,            // User base
       revenue: 0,          // Monthly recurring revenue
-      reputation: 30,      // 0-100 reputation score - nobody knows you
-      morale: 60           // 0-100 team morale - starting anxious
+      reputation: 50,      // 0-100 reputation score - decent starting reputation
+      morale: 75           // 0-100 team morale - optimistic start
     };
     
     // Co-founder
@@ -56,6 +56,7 @@ class GameEngine {
     this.currentEvent = null;
     this.eventHistory = [];
     this.shownEventIds = []; // Track which events have been shown to prevent repeats
+    this.recentEventIds = []; // Track last 5 events to prevent repeats within current stage
     
     // Seeded RNG
     this.seed = Date.now();
@@ -86,15 +87,15 @@ class GameEngine {
     this.gameEnded = false;
     this.month = 0;
     
-    // Reset resources - Balanced for playability
+    // Reset resources - Balanced for winnable gameplay
     this.resources = {
-      money: 50000,      // $50K starting capital (10 months solo runway)
+      money: 100000,     // $100K starting capital (realistic seed)
       team: 1,           // Just the founder
       product: 0,        // No product yet
       users: 0,          // No users yet
       revenue: 0,        // No revenue yet
-      reputation: 30,    // Nobody knows you yet
-      morale: 60         // Starting anxious
+      reputation: 50,    // Decent starting reputation
+      morale: 75         // Optimistic start
     };
     
     this.cofounder = null;
@@ -102,6 +103,7 @@ class GameEngine {
     
     // Reset event tracking
     this.shownEventIds = [];
+    this.recentEventIds = [];
     this.eventHistory = [];
     
     // Reset milestones
@@ -149,14 +151,17 @@ class GameEngine {
     // Filter events by stage
     const stageEvents = STORY_EVENTS.filter(e => e.stage === stage || e.stage === 'any');
     
-    // Check conditions and exclude already shown events
+    // Check conditions and exclude already shown events AND recent events (last 5)
     stageEvents.forEach(event => {
-      if (this.checkEventCondition(event) && !this.shownEventIds.includes(event.id)) {
+      if (this.checkEventCondition(event) && 
+          !this.shownEventIds.includes(event.id) && 
+          !this.recentEventIds.includes(event.id)) {
         events.push(event);
       }
     });
     
     // If no new events available, reset shown events for this stage to allow repeats
+    // BUT still exclude recent events to prevent quick repeats
     if (events.length === 0) {
       // Clear shown event IDs and try again
       const allStageEvents = stageEvents.filter(e => this.checkEventCondition(e));
@@ -164,12 +169,27 @@ class GameEngine {
         // Only reset event IDs from current stage
         const currentStageEventIds = stageEvents.map(e => e.id);
         this.shownEventIds = this.shownEventIds.filter(id => !currentStageEventIds.includes(id));
-        // Retry
+        // Retry, but still exclude recent events
         stageEvents.forEach(event => {
-          if (this.checkEventCondition(event) && !this.shownEventIds.includes(event.id)) {
+          if (this.checkEventCondition(event) && 
+              !this.shownEventIds.includes(event.id) && 
+              !this.recentEventIds.includes(event.id)) {
             events.push(event);
           }
         });
+        
+        // Last resort: if STILL no events, clear oldest from recentEventIds to allow ONE repeat
+        if (events.length === 0 && this.recentEventIds.length > 0) {
+          this.recentEventIds.shift(); // Remove oldest from recent to allow it
+          // Try ONE more time with updated recentEventIds
+          stageEvents.forEach(event => {
+            if (this.checkEventCondition(event) && 
+                !this.shownEventIds.includes(event.id) && 
+                !this.recentEventIds.includes(event.id)) {
+              events.push(event);
+            }
+          });
+        }
       }
     }
     
@@ -213,6 +233,12 @@ class GameEngine {
     // Mark this event as shown
     if (!this.shownEventIds.includes(this.currentEvent.id)) {
       this.shownEventIds.push(this.currentEvent.id);
+    }
+    
+    // Track in recent events (keep last 5) to prevent repeats within stage
+    this.recentEventIds.push(this.currentEvent.id);
+    if (this.recentEventIds.length > 5) {
+      this.recentEventIds.shift(); // Remove oldest
     }
     
     // Apply effects
@@ -330,24 +356,24 @@ class GameEngine {
   advanceMonth() {
     this.month++;
     
-    // Monthly expenses - Balanced burn rate
-    const monthlyBurn = this.resources.team * 4000; // $4k per team member
+    // Monthly expenses - Winnable burn rate
+    const monthlyBurn = this.resources.team * 2500; // $2.5k per team member (lean startup)
     this.resources.money -= monthlyBurn;
     
     // Add monthly revenue
     this.resources.money += this.resources.revenue;
     
-    // Natural user churn - startups lose users without effort
-    if (this.resources.users > 0 && this.resources.product < 80) {
-      const churnRate = 0.05; // 5% monthly churn if product not polished
+    // Natural user churn - reduced for winnable gameplay
+    if (this.resources.users > 0 && this.resources.product < 70) {
+      const churnRate = 0.03; // 3% monthly churn (more forgiving)
       this.resources.users = Math.floor(this.resources.users * (1 - churnRate));
     }
     
-    // Natural user growth is VERY slow - realistic
-    if (this.resources.product > 70 && this.resources.users >= 50 && this.resources.reputation > 40) {
-      const growthRate = this.resources.reputation / 500; // Very slow growth
+    // Natural user growth - more achievable
+    if (this.resources.product > 60 && this.resources.users >= 10 && this.resources.reputation > 30) {
+      const growthRate = this.resources.reputation / 200; // Better growth rate
       const growth = Math.floor(this.resources.users * growthRate);
-      this.resources.users += Math.max(0, growth);
+      this.resources.users += Math.max(1, growth); // Minimum 1 user growth
     }
     
     // Morale slowly decreases under pressure
@@ -409,6 +435,8 @@ class GameEngine {
    * Update game stage based on progress
    */
   updateStage() {
+    const oldStage = this.stage;
+    
     if (this.milestones.exit) {
       this.stage = 'exit';
     } else if (this.milestones.scaling) {
@@ -422,18 +450,24 @@ class GameEngine {
     } else {
       this.stage = 'idea';
     }
+    
+    // Clear recent events when stage changes - allows fresh events for new chapter
+    if (oldStage !== this.stage) {
+      this.recentEventIds = [];
+      console.log(`Stage changed from ${oldStage} to ${this.stage} - cleared recent events`);
+    }
   }
   
   /**
    * Check if player can attempt exit - Much stricter (realistic)
    */
   canAttemptExit() {
-    // Must have MVP built, 1000+ users, $10K+ MRR, and polished product
+    // Must have MVP built, 500+ users, $5K+ MRR, and good product (winnable)
     return this.milestones.mvpBuilt && 
-           this.resources.users >= 1000 && 
-           this.resources.revenue >= 10000 &&
+           this.resources.users >= 500 && 
+           this.resources.revenue >= 5000 &&
            this.resources.money > 0 &&
-           this.resources.product >= 80;
+           this.resources.product >= 70;
   }
   
   /**
@@ -443,7 +477,7 @@ class GameEngine {
     // Calculate company valuation
     const valuation = this.calculateValuation();
     
-    if (valuation >= 50000000) { // $50M minimum for successful exit (realistic unicorn)
+    if (valuation >= 25000000) { // $25M minimum for successful exit (winnable)
       this.milestones.exit = true;
       this.gameEnded = true;
       this.stage = 'exit';
@@ -457,7 +491,7 @@ class GameEngine {
       return {
         success: false,
         valuation: valuation,
-        message: `Your company is valued at $${(valuation / 1000000).toFixed(1)}M. Acquirers want $50M+ for a serious exit. Keep growing!`
+        message: `Your company is valued at $${(valuation / 1000000).toFixed(1)}M. Acquirers want $25M+ for a successful exit. Keep growing!`
       };
     } else {
       return {
