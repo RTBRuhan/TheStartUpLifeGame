@@ -55,6 +55,7 @@ class GameEngine {
     // Current Event
     this.currentEvent = null;
     this.eventHistory = [];
+    this.shownEventIds = []; // Track which events have been shown to prevent repeats
     
     // Seeded RNG
     this.seed = Date.now();
@@ -98,6 +99,10 @@ class GameEngine {
     
     this.cofounder = null;
     this.cofounderRelationship = 0;
+    
+    // Reset event tracking
+    this.shownEventIds = [];
+    this.eventHistory = [];
     
     // Reset milestones
     Object.keys(this.milestones).forEach(key => {
@@ -144,12 +149,29 @@ class GameEngine {
     // Filter events by stage
     const stageEvents = STORY_EVENTS.filter(e => e.stage === stage || e.stage === 'any');
     
-    // Check conditions
+    // Check conditions and exclude already shown events
     stageEvents.forEach(event => {
-      if (this.checkEventCondition(event)) {
+      if (this.checkEventCondition(event) && !this.shownEventIds.includes(event.id)) {
         events.push(event);
       }
     });
+    
+    // If no new events available, reset shown events for this stage to allow repeats
+    if (events.length === 0) {
+      // Clear shown event IDs and try again
+      const allStageEvents = stageEvents.filter(e => this.checkEventCondition(e));
+      if (allStageEvents.length > 0) {
+        // Only reset event IDs from current stage
+        const currentStageEventIds = stageEvents.map(e => e.id);
+        this.shownEventIds = this.shownEventIds.filter(id => !currentStageEventIds.includes(id));
+        // Retry
+        stageEvents.forEach(event => {
+          if (this.checkEventCondition(event) && !this.shownEventIds.includes(event.id)) {
+            events.push(event);
+          }
+        });
+      }
+    }
     
     return events;
   }
@@ -188,16 +210,21 @@ class GameEngine {
     const choice = this.currentEvent.choices[choiceIndex];
     if (!choice) return { success: false, message: 'Invalid choice' };
     
+    // Mark this event as shown
+    if (!this.shownEventIds.includes(this.currentEvent.id)) {
+      this.shownEventIds.push(this.currentEvent.id);
+    }
+    
     // Apply effects
     const effects = choice.effect;
     let narrative = choice.result;
     
-    // Apply resource changes
+    // Apply resource changes with proper bounds
     if (effects.money) this.resources.money += effects.money;
-    if (effects.team) this.resources.team += effects.team;
-    if (effects.product) this.resources.product = Math.min(100, this.resources.product + effects.product);
-    if (effects.users) this.resources.users += effects.users;
-    if (effects.revenue) this.resources.revenue += effects.revenue;
+    if (effects.team) this.resources.team = Math.max(1, this.resources.team + effects.team); // Min 1 (founder)
+    if (effects.product) this.resources.product = Math.max(0, Math.min(100, this.resources.product + effects.product));
+    if (effects.users) this.resources.users = Math.max(0, this.resources.users + effects.users);
+    if (effects.revenue) this.resources.revenue = Math.max(0, this.resources.revenue + effects.revenue);
     if (effects.reputation) this.resources.reputation = Math.max(0, Math.min(100, this.resources.reputation + effects.reputation));
     if (effects.morale) this.resources.morale = Math.max(0, Math.min(100, this.resources.morale + effects.morale));
     
@@ -327,6 +354,9 @@ class GameEngine {
     if (this.resources.money < 15000) { // Low on cash
       this.resources.morale = Math.max(0, this.resources.morale - 3);
     }
+    
+    // Ensure morale stays within bounds
+    this.resources.morale = Math.max(0, Math.min(100, this.resources.morale));
     
     // Check if time limit reached
     if (this.month >= this.maxMonths && !this.milestones.exit) {
