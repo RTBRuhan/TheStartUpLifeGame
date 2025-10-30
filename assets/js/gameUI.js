@@ -337,9 +337,26 @@ class GameUI {
    * Handle save game
    */
   handleSaveGame() {
-    const saveData = JSON.stringify(this.game.exportJSON());
-    localStorage.setItem('startup-life-save', saveData);
-    alert('💾 Game saved!');
+    try {
+      const saveData = JSON.stringify(this.game.exportJSON());
+      localStorage.setItem('startup-life-save', saveData);
+      
+      // Visual feedback
+      const btn = document.getElementById('save-game-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✅ Saved!';
+      btn.classList.add('bg-green-700');
+      btn.classList.remove('bg-gray-800');
+      
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-green-700');
+        btn.classList.add('bg-gray-800');
+      }, 2000);
+    } catch (error) {
+      alert('❌ Failed to save game. Please try again.');
+      console.error('Save error:', error);
+    }
   }
   
   /**
