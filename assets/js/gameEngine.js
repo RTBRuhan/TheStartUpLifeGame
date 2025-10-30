@@ -15,9 +15,9 @@ class GameEngine {
     this.startupName = '';
     this.founderName = '';
     
-    // Resources - Realistic brutal startup life
+    // Resources - Balanced for playability
     this.resources = {
-      money: 25000,        // Starting capital ($25K) - enough for 5-6 months
+      money: 50000,        // Starting capital ($50K) - enough for 10 months solo
       team: 1,             // Just the founder
       product: 0,          // 0-100 product completion
       users: 0,            // User base
@@ -86,9 +86,9 @@ class GameEngine {
     this.gameEnded = false;
     this.month = 0;
     
-    // Reset resources - Realistic brutal startup life
+    // Reset resources - Balanced for playability
     this.resources = {
-      money: 25000,      // $25K starting capital (5-6 months runway)
+      money: 50000,      // $50K starting capital (10 months solo runway)
       team: 1,           // Just the founder
       product: 0,        // No product yet
       users: 0,          // No users yet
@@ -330,8 +330,8 @@ class GameEngine {
   advanceMonth() {
     this.month++;
     
-    // Monthly expenses - Realistic burn rate (brutal)
-    const monthlyBurn = this.resources.team * 5000; // $5k per team member
+    // Monthly expenses - Balanced burn rate
+    const monthlyBurn = this.resources.team * 4000; // $4k per team member
     this.resources.money -= monthlyBurn;
     
     // Add monthly revenue

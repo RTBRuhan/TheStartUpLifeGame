@@ -96,21 +96,21 @@ const STORY_EVENTS = [
     choices: [
       {
         text: '⚡ Fast & dirty - PHP/WordPress',
-        quality: 'bad',
-        effect: { product: +15, money: -3000 },
+        quality: 'neutral',
+        effect: { product: +15, money: -2000 },
         result: 'You ship fast but the code is a mess. Every new feature takes 3x longer than expected.'
       },
       {
         text: '🏗️ Scalable - React/Node/AWS',
-        quality: 'neutral',
-        effect: { product: +8, money: -8000, morale: -10 },
-        result: 'It takes 3 months to set up. Your money is burning. Are you over-engineering?'
+        quality: 'good',
+        effect: { product: +12, money: -5000, morale: -5 },
+        result: 'It takes time to set up but you\'re building on solid foundations.'
       },
       {
         text: '🚀 Bleeding edge - Next.js/Serverless',
-        quality: 'bad',
-        effect: { product: +10, money: -6000, reputation: -10 },
-        result: 'Cool tech, but docs are sparse. You spend weeks debugging edge cases.'
+        quality: 'neutral',
+        effect: { product: +10, money: -4000, reputation: +5 },
+        result: 'Cool tech. Debugging is hard but you\'re learning fast.'
       }
     ]
   },
