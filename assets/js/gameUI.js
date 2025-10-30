@@ -25,7 +25,6 @@ class GameUI {
     
     // Quick actions
     document.getElementById('exit-attempt-btn').addEventListener('click', () => this.handleAttemptExit());
-    document.getElementById('save-game-btn').addEventListener('click', () => this.handleSaveGame());
     
     // Next button
     document.getElementById('next-btn').addEventListener('click', () => this.handleNextEvent());
@@ -330,32 +329,6 @@ class GameUI {
       setTimeout(() => this.showEndGame(), 1000);
     } else {
       alert(result.message);
-    }
-  }
-  
-  /**
-   * Handle save game
-   */
-  handleSaveGame() {
-    try {
-      const saveData = JSON.stringify(this.game.exportJSON());
-      localStorage.setItem('startup-life-save', saveData);
-      
-      // Visual feedback
-      const btn = document.getElementById('save-game-btn');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '✅ Saved!';
-      btn.classList.add('bg-green-700');
-      btn.classList.remove('bg-gray-800');
-      
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.classList.remove('bg-green-700');
-        btn.classList.add('bg-gray-800');
-      }, 2000);
-    } catch (error) {
-      alert('❌ Failed to save game. Please try again.');
-      console.error('Save error:', error);
     }
   }
   
